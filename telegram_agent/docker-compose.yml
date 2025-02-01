@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  mongo:
+    image: mongo:5.0
+    container_name: moodlemate-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - moodlemate-net
+
+  # Add other services if necessary (e.g., your application service)
+
+volumes:
+  mongo_data:
+
+networks:
+  moodlemate-net:
+    driver: bridge

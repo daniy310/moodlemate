@@ -1,0 +1,52 @@
+{
+    "Monday": [
+        {
+            "course_id": "CSIT115",
+            "course_type": "Lecture",
+            "course_start_time": "11:30",
+            "course_end_time": "14:30",
+            "course_location": "0.17-Lecture Theatre"
+        },
+        {
+            "course_id": "CSIT110",
+            "course_type": "Lecture",
+            "course_start_time": "14:30",
+            "course_end_time": "17:30",
+            "course_location": "0.17-Lecture Theatre"
+        }
+    ],
+    "Tuesday": [
+        {
+            "course_id": "CSIT123",
+            "course_type": "Lecture",
+            "course_start_time": "14:30",
+            "course_end_time": "16:30",
+            "course_location": "3.44-Classroom B"
+        },
+        {
+            "course_id": "CSIT115",
+            "course_type": "Computer Lab",
+            "course_start_time": "16:30",
+            "course_end_time": "18:30",
+            "course_location": "3.47-Game Dev Lab Dual Screens"
+        }
+    ],
+    "Wednesday": [
+        {
+            "course_id": "CSIT110",
+            "course_type": "Computer Lab",
+            "course_start_time": "10:30",
+            "course_end_time": "12:30",
+            "course_location": "3.47-Game Dev Lab Dual Screens"
+        },
+        {
+            "course_id": "CSIT123",
+            "course_type": "Tut",
+            "course_start_time": "13:30",
+            "course_end_time": "15:30",
+            "course_location": "6.28-Seminar/Tutorial"
+        }
+    ],
+    "Thursday": [],
+    "Friday": []
+}
