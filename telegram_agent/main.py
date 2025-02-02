@@ -10,6 +10,7 @@ from telegram import Update, Message
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext, ConversationHandler
 from solss_scraper import scrape_timetable
 from mongo_handler import MongoHandler
+from telegram_agent.solss_scraper import scrape_user_data
 from telegram_agent.utils.utils import check_user_setup, personalize_system_prompt, reset_history
 from utils.utils import check_user_setup
 
@@ -75,14 +76,18 @@ async def scrape_and_save_timetable(update: Update, context: CallbackContext):
             f"App is in dev mode so everyone can test it out without the SOLSS account. Instead, you will see some mock data ! \n This can easily be changed back to prod version from our ENV vars :)")
         return ConversationHandler.END
 
+    user_id = update.message.from_user.id
     moodle_password = update.message.text
 
     await update.message.reply_text(f"Thank you! Allow me one minute to connect to SOLSS and gather the relevant data..")
 
     # Now scrape the timetable using solss-scraper
     user_data = context.user_data
-    timetable = scrape_timetable(user_data["moodle_username"], moodle_password)
 
+    timetable = await scrape_user_data(user_data["moodle_username"], moodle_password, user_id, update, context)
+
+    # timetable = scrape_timetable(user_data["moodle_username"], moodle_password)
+    #
     # Save the user data in the database
     user_id = update.message.from_user.id
     student_data = {

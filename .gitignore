@@ -1,3 +1,6 @@
 .env
 .idea
 .idea/*
+
+telegram_agent/__pycache__
+telegram_agent/utils/__pycache__
