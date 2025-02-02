@@ -69,3 +69,16 @@ class MongoHandler:
             query (dict): The query to match the document.
         """
         return self.collection.find_one(query)
+
+    def find_many(self, query):
+        """
+        Find documents in the collection.
+
+        Args:
+            query (dict): The query to match documents.
+
+        Returns:
+            list: A list of documents that match the query.
+        """
+        return list(self.collection.find(query))
+

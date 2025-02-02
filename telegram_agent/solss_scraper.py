@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 
 
 options = webdriver.ChromeOptions()
-options.add_argument("--headless=new")
+# options.add_argument("--headless=new")
 driver = webdriver.Chrome(options=options)
 
 def get_mobile_timetable(driver):
@@ -15,7 +15,8 @@ def get_mobile_timetable(driver):
         "Tuesday": [],
         "Wednesday": [],
         "Thursday": [],
-        "Friday": []
+        "Friday": [],
+        "courses_list": []
     }
 
     # Resize the window to simulate a mobile screen (e.g., 375px width)
@@ -78,6 +79,9 @@ def get_mobile_timetable(driver):
                         "course_location": course_location
                     })
 
+                    if course_id not in timetable["courses_list"]:
+                        timetable["courses_list"].append(course_id)
+
     # Print the final timetable for debugging
     print("✅ Final mobile timetable:")
     print(json.dumps(timetable, indent=4))
@@ -86,21 +90,29 @@ def get_mobile_timetable(driver):
 
 
 
-def scrape_timetable(user_email: str, user_password: str):
+async def scrape_timetable(user_email: str, user_password: str, update, context):
     try:
         driver.get("https://solss.uow.edu.au/sid/sols_login_ctl.login_app")
-        time.sleep(5)
+        time.sleep(7)
 
-        driver.find_element(By.NAME, "loginfmt").send_keys(user_email)
+        # Enter email & continue
+        driver.find_element(By.NAME, "loginfmt").send_keys("ds374@uowmail.edu.au")
         driver.find_element(By.ID, "idSIButton9").click()
         time.sleep(5)
 
-        driver.find_element(By.NAME, "passwd").send_keys(user_password)
+        # Enter password & continue
+        driver.find_element(By.NAME, "passwd").send_keys("fyrT7wvY")
         driver.find_element(By.ID, "idSIButton9").click()
-        time.sleep(20)
+        time.sleep(5)
 
-        driver.find_element(By.ID, "idSIButton9").click()
+        # Find OTP code and send to user (Replace with Telegram message logic)
+        otp_code = driver.find_element(By.ID, "idRichContext_DisplaySign").text.strip()
+        await update.message.reply_text(f"Your OTP number is {otp_code}. Please enter it on your phone.")
         time.sleep(10)
+
+        # Click 'Yes' to stay signed in
+        driver.find_element(By.ID, "idSIButton9").click()
+        time.sleep(5)
 
         driver.find_element(By.XPATH, "//a[h2[text()='My Timetable']]").click()
         time.sleep(5)

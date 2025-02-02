@@ -81,7 +81,7 @@ async def scrape_and_save_timetable(update: Update, context: CallbackContext):
 
     # Now scrape the timetable using solss-scraper
     user_data = context.user_data
-    timetable = scrape_timetable(user_data["moodle_username"], moodle_password)
+    timetable = await scrape_timetable(user_data["moodle_username"], moodle_password, update, context)
 
     # Save the user data in the database
     user_id = update.message.from_user.id
@@ -89,7 +89,8 @@ async def scrape_and_save_timetable(update: Update, context: CallbackContext):
         "name": user_data["name"],
         "university": user_data["university"],
         "moodle_username": user_data["moodle_username"],
-        "timetable": timetable
+        "timetable": timetable,
+        "courses_list": timetable["courses_list"]
     }
 
     students_handler.save(student_data, unique_key={"user_id": user_id})
